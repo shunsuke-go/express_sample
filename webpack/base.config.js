@@ -28,7 +28,9 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".js", ".json"],
     alias: {
-      "@": path.join(__dirname, "/src/")
+      "@src": path.join(__dirname, "../src")
     }
   }
 };
+
+console.log("dir ........................................", path.join(__dirname, "../src"))

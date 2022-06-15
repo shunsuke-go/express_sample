@@ -1,4 +1,4 @@
-import { UserService } from '../services/UserService'
+import { UserService } from '@src/services/UserService'
 import express, { Request, Response } from 'express'
 
 export const router = express.Router()
