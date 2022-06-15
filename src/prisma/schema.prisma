@@ -11,4 +11,7 @@ model User {
   id    Int    @id @default(autoincrement())
   name  String
   email String @unique
+  hasedPassword String
+  cratedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
