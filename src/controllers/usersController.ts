@@ -1,6 +1,5 @@
 import { UserService } from '~/services/UserService'
 import bcrypt from 'bcrypt'
-
 import { Request, Response, Router } from 'express'
 
 export const userRouter = Router()
@@ -17,7 +16,7 @@ userRouter.get('/', async (req: Request, res: Response) => {
 })
 
 userRouter.get('/:id', async (req: Request, res: Response) => {
-  const user = await UserService.find(parseInt(req.params?.id))
+  const user = await UserService.find({ id: parseInt(req.params?.id) })
   return res.status(200).send({
     user: {
       id: user.id,
@@ -33,7 +32,7 @@ userRouter.post('/', async (req: Request, res: Response) => {
 
   try {
     await UserService.create(name, email, hasedPassword)
-    return res.status(200)
+    return res.status(200).json()
   } catch(e) {
     console.error(e)
   }

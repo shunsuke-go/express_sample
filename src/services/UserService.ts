@@ -6,9 +6,9 @@ export class UserService {
     return await prisma.user.findMany()
   }
 
-  static async find(id: number) {
+  static async find({ id, email }: { id?: number, email?: string }) {
     return await prisma.user.findUnique({
-      where: { id }
+      where: { id, email }
     })
   }
 
