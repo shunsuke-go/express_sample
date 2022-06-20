@@ -9,13 +9,21 @@ taskRouter.get('/', verifyToken, async (req: Request, res: Response) => {
   const user: User = res.locals.user
   const tasks: Task[] = await TaskService.all({ userId: user.id })
 
-  res.status(200).send({ user: user, tasks: tasks })
+  res.status(200).send(
+    tasks.map(task => ({
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      isDone: task.isDone,
+    }))
+  )
 })
 
 taskRouter.get('/:id', verifyToken, async (req: Request, res: Response) => {
   try {
     const task: Task = await TaskService.find({ id: parseInt(req.params.id) })
-    res.status(200).send({ task })
+    res.status(200).send(task)
+    res.render
   } catch (e) {
     res.status(404).send({ message: 'not found'})
   }
@@ -23,10 +31,9 @@ taskRouter.get('/:id', verifyToken, async (req: Request, res: Response) => {
 
 taskRouter.post('/', verifyToken, async (req: Request, res: Response) => {
   const user: User = res.locals.user
-  console.log("aaaaaaaaaa")
   const { title, description, isDone }: Task = req.body
   try {
-    await TaskService.create({ title, description, isDone, userId: user.id })
+    await TaskService.create({ title, description, isDone: false, userId: user.id })
     res.status(201).send({ message: 'created'})
   } catch (e){
     res.status(403).send({ message: 'post error'})
