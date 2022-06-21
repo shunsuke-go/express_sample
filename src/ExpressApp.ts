@@ -2,6 +2,7 @@ import express, { Application } from 'express'
 import cors from 'cors'
 import { corsOptions } from '~/helpers/corsOptions'
 import { taskRouter } from '~/controllers/tasksController'
+import { errorHandler } from '~/helpers/httpException'
 import { sessionRouter } from '~/controllers/sessionController'
 import { userRouter } from '~/controllers/usersController'
 
@@ -19,5 +20,6 @@ export class ExpressApp {
     this.app.use('/users', userRouter)
     this.app.use('/session', sessionRouter)
     this.app.use('/tasks', taskRouter)
+    this.app.use(errorHandler)
   }
 }
