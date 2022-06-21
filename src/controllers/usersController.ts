@@ -1,29 +1,15 @@
 import { UserService } from '~/services/UserService'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { UserView } from '~/views/users/UserView'
 import { Request, Response, Router } from 'express'
 
 export const userRouter = Router()
+const { show } = new UserView()
 
-userRouter.get('/', async (req: Request, res: Response) => {
-  const allUsers = await UserService.all()
-  return res.status(200).send({
-    users: allUsers.map((user) => ({
-      id: user.id,
-      name: user.name,
-      email: user.email
-    }))
-  })
-})
 userRouter.get('/:id', async (req: Request, res: Response) => {
   const user = await UserService.find({ id: parseInt(req.params?.id) })
-  return res.status(200).send({
-    user: {
-      id: user.id,
-      name: user.name,
-      email: user.email
-    }
-  })
+  return res.status(200).send(show(user))
 })
 userRouter.post('/', async (req: Request, res: Response) => {
   const {
